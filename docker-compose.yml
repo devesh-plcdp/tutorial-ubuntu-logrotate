@@ -1,0 +1,41 @@
+version: '3'
+
+networks:
+  tutorial-ubuntu-logrotate-network:
+    driver: bridge
+
+services:
+  rabbitmq:
+    container_name: tutorial-ubuntu-logrotate-rabbitmq
+    image: rabbitmq:3-management-alpine
+    env_file:
+      - ./.env
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+    ports:
+      - "5672:5672"  # RabbitMQ default port
+      - "15672:15672"  # RabbitMQ management UI port
+    networks:
+      - tutorial-ubuntu-logrotate-network
+
+  backend:
+    container_name: tutorial-ubuntu-logrotate-backend
+    build:
+      context: ./django
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - tutorial-ubuntu-logrotate-network
+
+  celery:
+    container_name: tutorial-ubuntu-logrotate-celery
+    build:
+      context: ./django
+      dockerfile: Celery.Dockerfile
+    depends_on:
+      - rabbitmq
+      - backend
+    networks:
+      - tutorial-ubuntu-logrotate-network
