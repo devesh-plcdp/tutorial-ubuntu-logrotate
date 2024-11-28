@@ -11,7 +11,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.beat_schedule = {
     'log_every_hour': {
         'task': 'app.tasks.log_message',
-        'schedule': crontab(minute=10, hour='*'),
+        'schedule': crontab(minute='*', hour='*'),
     },
 }
 
