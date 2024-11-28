@@ -39,3 +39,5 @@ services:
       - backend
     networks:
       - tutorial-ubuntu-logrotate-network
+    volumes:
+      - /var/log/celery:/var/log/celery
