@@ -6,5 +6,5 @@ logger = logging.getLogger(__name__)
 
 @shared_task
 def log_message():
-    logger.info("Hourly log message")
-    print("Hourly log message")
+    logger.info("Minutely log message")
+    print("Minutely log message")
