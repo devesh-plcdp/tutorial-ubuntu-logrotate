@@ -50,16 +50,6 @@ services:
     ports:
       - "9200:9200"
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.10.0
-    container_name: kibana
-    depends_on:
-      - elasticsearch
-    environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-    ports:
-      - "5601:5601"
-
   filebeat:
     image: docker.elastic.co/beats/filebeat:8.10.0
     container_name: filebeat
@@ -69,3 +59,13 @@ services:
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
     depends_on:
       - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.10.0
+    container_name: kibana
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
